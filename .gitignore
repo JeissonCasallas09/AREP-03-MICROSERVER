@@ -1,0 +1,10 @@
+
+/target/
+/.vscode/
+/src\main\java\edu\eci\arep\webserver\Foo.java/
+/src\main\java\edu\eci\arep\webserver\InvokePrintMembers.java/
+/src\main\java\edu\eci\arep\webserver\InvokeMain.java/
+/src\main\java\edu\eci\arep\webserver\MathController.java/
+/src\main\java\edu\eci\arep\webserver\MicroSpring.java/
+/src\main\java\edu\eci\arep\webserver\RunTests.java/
+/src\main\java\edu\eci\arep\webserver\Tests.java/
