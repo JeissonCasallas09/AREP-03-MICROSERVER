@@ -1,4 +1,4 @@
-package edu.eci.arep.webserver;
+package edu.eci.arep.webserver.classExercises;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

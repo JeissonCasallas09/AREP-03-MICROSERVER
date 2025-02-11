@@ -1,9 +1,12 @@
-# Distributed Applications
+# AREP-03 MICROSERVER
 
-For this project we made a simple HTTP server implementation using technologies like Java, JavaScript, CSS, HTML and REST request without using frameworks like Spring Boot, just a simple server. All of this divided by directories.
+For this project, a microserver has been developed using technologies such as Java, JavaScript, CSS, and HTML. Its uniqueness lies in leveraging Java features like reflection and annotations to handle dynamic REST requests in a non-concurrent manner. This is achieved through the definition of controllers, endpoints, and the use of parameters when specifying routes within the web application.
 
 ![](/images/1.png)
 ![](/images/2.png)
+![](/images/3.png)
+![](/images/4.png)
+
 
 ## Getting Started
 
@@ -20,7 +23,7 @@ You need to install the following tools to run the project:
     ```
     You should see something like this:
 
-    ![](/images/3.png)
+    ![](/images/5.png)
 
 2. Maven
 
@@ -31,7 +34,7 @@ You need to install the following tools to run the project:
     ```
     You should see something like this:
     
-    ![](/images/4.png)
+    ![](/images/6.png)
 
 3. Git
 
@@ -41,14 +44,14 @@ You need to install the following tools to run the project:
     ```
     It should appear something like this:
     
-    ![](/images/5.png)
+    ![](/images/7.png)
 
 ### Installing
 
 1. First, we need to open a terminal and put the following command to clone the project:
 
     ```
-    git clone https://github.com/JeissonCasallas09/AREP-01-APP-DISTRIBUIDA
+    git clone https://github.com/JeissonCasallas09/AREP-03-MICROSERVER
     ```
 2. Open the folder with the project in a new terminal and build it with the following command:
     ```
@@ -56,7 +59,7 @@ You need to install the following tools to run the project:
     ```
     This message will tell you that it was successfull:
 
-     ![](/images/6.png)
+     ![](/images/8.png)
 
 3. Now just run the project using:
     ```
@@ -64,153 +67,355 @@ You need to install the following tools to run the project:
     ```
     The project is now running:
 
-    ![](/images/7.png)
+    ![](/images/9.png)
     
 4. Enter from your browser to the local server with port 35000
 
- ![](/images/8.png)
+ ![](/images/10.png)
 
 
 ## Architecture
+ ![](/images/12.png)
 
+### Overview
+Project Architecture
+This project follows a simple microserver-based architecture with three main components:
 
-#### Overview
-This project implements a basic HTTP server capable of serving static files, handling REST API requests, and managing content types. Below is a breakdown of the main components, explaining the role of each file and its key methods.
+* ### Static Files
 
-#### 1️.  HttpServer.java
-✅ Core class that implements the HTTP server.
+   * Contains essential frontend assets, including:
 
-🔹 Key responsibilities:
+   * Styles: CSS files for styling the interface.
 
-   - Listens for client connections on port 35000.
-   - Parses HTTP requests to determine whether to serve a static file or process a REST API request.
-   - Uses the serveFile() method to return static content (HTML, CSS, JS, images).
-   - Implements the helloRestService() method to handle API requests at /app/hello?name=yourname.
-   - Determines MIME types with the getContentType() method.
+    * Script: JavaScript files for dynamic behavior.
 
-🔹 Key methods:
+   * Index: The main HTML file that serves as the entry point of the application.
+   These files are served by the server to the client.
 
-   - main(String[] args) → Starts the server, listens for connections, and processes requests.
-   - serveFile(PrintWriter out, String filePath, String contentType) → Reads and returns the requested static file's content.
-   - getContentType(String file) → Determines the MIME type of a file (HTML, CSS, JS, images, etc.).
-   - helloRestService(String path, String query) → Handles API requests like /app/hello?name=John, returning JSON responses.
+* ### Server
 
-#### 2️. HttpServerTest.java
-✅ Unit test class that ensures the server behaves correctly.
+   * Implements a MicroServer responsible for handling requests and serving static files.
+   * Acts as an intermediary between the client and backend logic.
 
-🔹 Key tests:
+* ### Controller
 
-   - testServeStaticFile() → Verifies the server correctly serves an existing HTML file.
-   - testHelloRestService() → Ensures that the /app/hello REST endpoint returns a valid JSON response.
-   - testFileNotFound() → Checks that the server returns a 500 Internal Server Error for non-existent files.
-   - testGetContentTypeHtml(), testGetContentTypeCss(), t testGetContentTypeJs(), testGetContentTypePng() → Validate the MIME type detection.
+   * The GreetingController manages request handling and responses.
+   * It processes user requests and provides appropriate responses.
 
-#### 3️. index.html (or other static files)
+* ### Workflow
 
-✅ HTML page served by the server when requested.
+   1. The client accesses the Static Files (HTML, CSS, JavaScript) through the MicroServer.
+   2. The MicroServer communicates with the GreetingController to handle dynamic requests.
+   3. The GreetingController processes incoming requests and returns the necessary data.
+   
+This architecture ensures a clear separation of concerns, allowing for easy maintenance and scalability.
 
-🔹 Key role:
+![](/images/13.png)
 
-   - Rendered in the browser when navigating to /index.html.
-   - Can include CSS and JavaScript files that are also served by the server.
+* ### Interfaces
+   1. RequestParam:
+      
+      * Used to handle parameters in HTTP requests.
+      * Methods:
+         1. value() : String → Returns the parameter's value.
+         2. defaultValue() : String → Defines a default value.
 
-#### 4️. styles.css (or any other CSS file)
+   2. GetMapping:
+      * Maps methods to HTTP GET routes.
+      * Method:
+         1. value() : String → Returns the assigned route.
 
-✅ Defines the visual style of the HTML files served by the server.
+   3. RestController:
+      * Indicates that a class is a REST controller, used for Annotations.
 
-#### 5️. script.js (or other JavaScript files)
+* ### GreetingController Class
+   This class acts as a controller within the web server, handling different routes and performing string operations.
 
-✅ Contains JavaScript logic that may interact with the server via AJAX or fetch requests.
+   Main Methods:
+
+   1. greeting(name: String) : String
+
+      * Returns a personalized greeting with the received name.
+      * Example: GET /app/greeting?name=John → "Hello, John!"
+   
+   2. pi() : String
+
+      * return a predefined value, in this case the value of PI.
+   
+   3. index() : String
+
+      *  Returns a  welcome message.
+   
+   4. countChars(word: String) : String
+
+      * Returns the number of characters in the given word.
+      * Example: GET /app/countChars?word=hello → "5"
+   
+   5. concat(a: String, b: String) : String
+
+      * Concatenates two strings and returns the result.
+      * Example: GET /app/concat?a=Hello&b=World → "HelloWorld"
+   
+   6. max(a: String, b: String, c: String) : String
+
+      * Returns the maximum value among three strings (likely compared alphabetically or numerically).
+      * Example: GET /app/max?a=3&b=5&c=4 → "5"
+
+*  ### MicroServer Class
+This is the core class of the server, managing HTTP requests and responses.
+
+   #### Attributes:
+   *  PORT : int = 8080 → Defines the port where the server listens.
+
+   * BASE_PATH : String = "/app" → Base path for requests.
+
+   * STATIC_FOLDER : String = "src/main/java/edu/eci/arep/webserver/static/"
+   → Directory where static files (HTML, CSS, JS) are stored.
+   
+   * routes : Map<String, Method> → Maps routes to their corresponding methods.
+
+   #### Main Methods:
+   
+   1. main(args: String[]) : void
+
+      * Main entry point to start the server.
+   
+   2. startServer() : void
+
+      * Starts the server on port 8080 and waits for requests.
+   
+   3. registerRoutes() : void
+
+      * Registers the available routes in the controller.
+   
+   4. invokeControllerMethod(path: String, queryString: String) : String
+
+      *  Calls the controller method associated with the requested route.
+   
+   5. extractParameters(method: Method, queryString: String) : Object[]
+
+      * Extracts parameters from a request and assigns them to the controller methods.
+   
+   6. parseQuery(query: String) : Map<String,String>
+
+      * Parses the query string (?param1=value1&param2=value2) into a key-value map.
+   
+   7. sendResponse(out: OutputStream, status: String, contentType: String, body: String) : void
+
+      * Sends an HTTP response to the client with the generated content.
+   
+   8. serveStaticFile(out: OutputStream, filePath: String) : void
+
+      * Serves static files like HTML, CSS, or images.
+   
+   9. getContentType(filePath: String) : String
+
+      * Determines the content type of a requested file (e.g., text/html, application/json, etc.).
+   
+   10. getRoutes() : Map<String,Method>
+
+   * Determines the content type of a requested file (e.g., text/html, application/json, etc.).
+
 
 ## Running the tests
 
-The project includes unit tests to validate the functionality of the HTTP server, ensuring correct behavior when handling static files, REST endpoints, and content types. Below is an explanation of each test:
+The project includes unit tests to validate the functionality of the MicroServer, ensuring correct behavior when handling dinamic files, REST endpoints, and content types. Below is an explanation of each test:
 
-#### 1. testServeStaticFile()
+### GreetingControllerTest
 
-✅ Purpose: This test verifies that the server correctly serves an existing static file (index.html).
+1. testGreetingDefault()
+   
+   **Description:**
+   Verifies that the greeting method returns the default greeting when the name "World" is provided.
 
-🔹 Steps:
-  - Sends an HTTP GET request for /index.html.
-  - Reads the server's response.
- - Checks if the response contains HTTP/1.1 200 OK (successful request).
-Ensures the Content-Type is text/html.
+   **Test Case:**
+   ```
+   Input: "World"
+   Expected Output: "Hola World"
+   ```
+2. testGreetingWithName()
+   
+   **Description:**
+   Checks that the greeting method returns a personalized greeting when a specific name is provided.
+   
+   **Test Case:**
+   ```
+   Input: "Juan"
+   Expected Output: "Hola Juan"
+   ```
+3. testPi()
+   
+   **Description:**
+   Validates that the pi method returns the value of π as a string.
 
-#### 2. testHelloRestService()
-✅ Purpose: This test ensures that the REST endpoint /app/hello returns a valid JSON response when queried.
+   **Test Case:**
+   ```
+   Input: "" (no parameters)
+   Expected Output: 3.141592653589793
+   ```
+4. testIndex()
+   
+   **Description:**
+   Verifies that the index method returns the expected welcome message.
+   
+   **Test Case:**
+   ```
+   Input: N/A
+   Expected Output: "Greetings from Spring Boot!"
+   ```
+5. testCountChars()
+   
+   **Description:**
+   Tests that the countChars method correctly counts the characters in a word and returns the appropriate message.
+   
+   **Test Case:**
+   ```
+   Input: "Hola"
+   Expected Output: "La palabra 'Hola' tiene 4 caracteres."
+   ```
+6. testConcat()
 
-🔹 Steps:
+   **Description:**
+   Verifies that the concat method correctly concatenates two words and returns the formatted result.
 
- - Sends an HTTP GET request for /app/hello?name=TestUser.
- - Reads the response.
- - Checks if the response contains HTTP/1.1 200 OK (successful request).
- - Ensures the Content-Type is application/json.
+   **Test Case:**
+   ```
+   Input: "Hola", "Mundo"
+   Expected Output: "Resultado: Hola Mundo"
+   ```
+7. testMax()
 
-#### 3. testFileNotFound()
+   **Description:**
+   Checks that the max method returns the highest number among three positive values.
 
-✅ Purpose: This test checks the error handling when requesting a nonexistent file.
+   **Test Case:**
+   ```
+   Input: "3", "8", "5"
+   Expected Output: "El número mayor es: 8"
+   ```
 
-🔹 Steps:
-   - Sends an HTTP GET request for /nonexistent.html.
-   - Reads the response.
-   - Verifies that the server responds with HTTP/1.1 500 Internal Server Error.
+8. testMaxWithNegativeNumbers()
+   
+   **Description:**
+   Validates that the max method works correctly with negative numbers and returns the largest one.
+   
+   **Test Case:**
+   ```
+   Input: "-1", "-3", "-5"
+   Expected Output: "El número mayor es: -1"
+   ```
 
-#### 4. testGetContentTypeHtml()
+### MicroServerTest
 
-✅ Purpose: Ensures that the MIME type detection for HTML files works correctly.
+1. testRoutesAreRegistered()
 
-🔹 Steps:
+   **Description:**
+   Verifies that the server correctly registers the available routes upon initialization.
 
-   - Calls getContentType("index.html").
-   - Asserts that the return value is "text/html".
+   **Test Case:**
+      ```
+      Expected Behavior:
+      The routes map should not be null.
+      It should contain at least one registered route.
+      The /app/greeting route should be present.
+      ```
+2. testInvokeControllerMethod()
 
-#### 5. testGetContentTypeCss()
+   **Description:**
+   Tests that the server correctly invokes the controller method associated with a registered route.
 
-✅ Purpose: Validates that the MIME type detection for CSS files returns the expected value.
+   **Test Case:**
+   ```
+   Input: Route "/app/greeting" with query "name=Juan"
 
-🔹 Steps:
+   Expected Output: "Hola Juan"
+   ```
 
-   - Calls getContentType("styles.css").
-   - Checks that it returns "text/css".
+3. testInvokeNonExistentRoute()
 
-#### 6️. testGetContentTypeJs()
-✅ Purpose: Ensures that JavaScript files are served with the correct MIME type.
+   **Description:**
+   Validates that invoking a non-existent route returns an appropriate error message.
 
-🔹 Steps:
+   **Test Case:**
+   ```
+   Input: Route "/app/notfound" with an empty query
 
-   - Calls getContentType("script.js").
-   - Verifies that it returns "application/javascript".
+   Expected Output: {"error": "Ruta no encontrada"}
+   ```
+4. testParseQueryParameters()
+   
+   **Description:**
+   Checks that the query string parsing method correctly extracts key-value parameters.
+   
+   **Test Case:**
+   ```
+   Input: "name=Juan&age=25"
+   Expected Output:
+   "name" → "Juan"
+   "age" → "25"
+   ```
+5. testSendResponse()
 
-#### 7️. testGetContentTypePng()
-✅ Purpose: Tests that image files (.png) are assigned the correct MIME type.
+   **Description:**
+   Tests that the server correctly formats and sends an HTTP response.
 
-🔹 Steps:
+   **Test Case:**
+   ```
+   Input:
+   Status: "200 OK"
+   Content Type: "text/plain"
+   Body: "Hello Test"
 
-   - Calls getContentType("image.png").
-   - Ensures that the return value is "image/png".
+   Expected Output: The generated response should contain:
+   "HTTP/1.1 200 OK"
+   "Content-Type: text/plain"
+   "Hello Test"
+   ```
 
 
-![](/images/9.png)
+![](/images/11.png)
 
-These tests validate the core functionality of the HTTP server, ensuring it properly serves static files, REST responses, and handles content type detection effectively. 🚀
+These tests validate the core functionality of the MicroServer and the GreetingController, ensuring it properly serves dinamic files, REST responses,annotations and handles content type detection effectively. 🚀
+
+
 
 ## Conclusions
 
-This project implements a basic HTTP server in Java capable of handling client requests, serving static files, and responding with JSON data. Throughout the development, the following objectives were achieved:
+The MicroServer project is a lightweight web server developed in Java, designed to handle HTTP requests dynamically while serving both static and dynamic content. By leveraging reflection and annotations, the server provides a simple yet extensible framework for building web applications. The following conclusions summarize key aspects of its design, implementation, and potential improvements.
 
-✅ Implementation of a basic HTTP server that listens on a specific port and processes client requests.
 
-✅ Handling of static files (.html, .css, .js, images, etc.), allowing content to be loaded from a predefined directory.
+1. Implementation of a Minimalist Web Server ✅
 
-✅ Detection of content types (MIME types) to serve files with the correct format based on their extensions.
+   * A lightweight web server was developed in Java, capable of handling HTTP requests, serving static files, and processing dynamic routes.
+   * The server architecture allows extension through controllers annotated with @GetMapping.
 
-✅ Implementation of a basic REST service (/app/hello?name=XYZ) that responds with dynamic JSON data.
+2. Dynamic Request Processing ✅
 
-✅ Unit testing with JUnit to validate the correct detection of MIME types for served files.
+   * A mechanism was implemented to register and execute controller methods dynamically using reflection.
+   * Parameter extraction and request handling were added, enabling flexible endpoint development.
 
-✅ Modular code structure, separating file handling logic, HTTP response generation, and server configuration.
+3. Static File Handling ✅
 
-This project served as a foundation for understanding the fundamentals of HTTP servers in Java, socket management, static file handling, and content validation through unit testing. 🚀
+   * Support for serving HTML, CSS, JavaScript, images, and other formats from a static folder was included.
+   * The Content-Type is determined based on the requested file extension.
+
+4. Unit Testing for Functionality Validation ✅
+
+   * JUnit tests were developed to validate route registration, correct controller method execution, and parameter processing.
+   * Proper construction and transmission of HTTP responses were verified.
+
+5. Modularity and Extensibility ✅
+
+   * The annotation-based architecture allows new routes to be added easily without modifying the server logic.
+   * The separation between the server, controllers, and static file handling improves code maintainability.
+
+6. Use of Design Patterns ✅
+
+   * The Front Controller pattern was applied, directing all HTTP requests to a single entry point.
+   * Reflection was used for dynamic method invocation in controllers, facilitating system extension.
+
+
+The MicroServer project demonstrates the implementation of a simple yet effective web server, providing fundamental features for handling web requests dynamically. 🚀
 
 
 ## Built With
@@ -227,7 +432,7 @@ versioning made it by [GitHub](http://git-scm.com).
 
 * **Jeisson Steban Casallas Rozo** - [JeissonCasallas09](https://github.com/JeissonCasallas09)
 
-Date: 28/01/2025
+Date: 10/02/2025
 ## License
 
 This project is licensed by ECI.

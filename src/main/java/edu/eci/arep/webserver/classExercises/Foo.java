@@ -1,4 +1,4 @@
-package edu.eci.arep.webserver;
+package edu.eci.arep.webserver.classExercises;
 
 public class Foo {
 

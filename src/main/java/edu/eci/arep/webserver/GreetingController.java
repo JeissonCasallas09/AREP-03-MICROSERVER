@@ -1,6 +1,5 @@
 package edu.eci.arep.webserver;
 
-
 @RestController
 public class GreetingController {
     @GetMapping("/greeting")
@@ -9,7 +8,7 @@ public class GreetingController {
 	}
 
     @GetMapping("/pi")
-	public static String pi(@RequestParam(value = "name", defaultValue = "World") String name) {
+	public static String pi() {
 		return Double.toString(Math.PI);
 	}
 

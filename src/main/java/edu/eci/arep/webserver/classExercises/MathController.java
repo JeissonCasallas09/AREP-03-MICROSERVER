@@ -1,4 +1,7 @@
-package edu.eci.arep.webserver;
+package edu.eci.arep.webserver.classExercises;
+
+import edu.eci.arep.webserver.GetMapping;
+import edu.eci.arep.webserver.RestController;
 
 @RestController
 public class MathController {

@@ -27,7 +27,7 @@ public class GreetingControllerTest {
 
     @Test
     void testPi() {
-        String response = GreetingController.pi("");
+        String response = GreetingController.pi();
         assertEquals(Double.toString(Math.PI), response);
     }
 
